@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.squareup.picasso.Picasso
 
 private const val TAG = "FlickrReclerViewAdapt"
 
@@ -68,7 +69,16 @@ class FlickrRecyclerViewAdapter(private var photoList: List<Photo>):RecyclerView
      * @param position The position of the item within the adapter's data set.
      */
     override fun onBindViewHolder(holder: FlickrImageViewHolder, position: Int) {
-        TODO("Not yet implemented")
+        // called by the layout manager when it wants new data in an existing view
+
+        val photoItem = photoList[position]
+//        Log.d(TAG, ".onBindViewHolder: ${photoItem.image}")
+        Picasso.with(holder.thumbnail.context).load(photoItem.image)
+                .error(R.drawable.baseline_image_black_48dp)
+                .placeholder((R.drawable.baseline_image_black_48dp))
+                .into(holder.thumbnail)
+
+        holder.title.text = photoItem.title
     }
 
     /**
@@ -77,7 +87,7 @@ class FlickrRecyclerViewAdapter(private var photoList: List<Photo>):RecyclerView
      * @return The total number of items in this adapter.
      */
     override fun getItemCount(): Int {
-        Log.d(TAG, "getItemCount called")
+//        Log.d(TAG, "getItemCount called")
         return if (photoList.isNotEmpty()) photoList.size else 0
     }
 
