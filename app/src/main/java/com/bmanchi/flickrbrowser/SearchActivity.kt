@@ -1,17 +1,22 @@
 package com.bmanchi.flickrbrowser
 
+import android.app.SearchManager
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.widget.SearchView
 
 
 private const val TAG = "SearchActivity"
 
 class SearchActivity : BaseActivity() {
+    private var searchView: SearchView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         Log.d(TAG, ".onCreate: starts")
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_seatch)
+        setContentView(R.layout.activity_search)
 //        setSupportActionBar(findViewById(R.id.toolbar))
 //
 //        findViewById<FloatingActionButton>(R.id.fab).setOnClickListener { view ->
@@ -21,5 +26,55 @@ class SearchActivity : BaseActivity() {
 
         activateToolbar(true)
         Log.d(TAG, ".onCreate: ends")
+    }
+
+    /**
+     * Initialize the contents of the Activity's standard options menu.  You
+     * should place your menu items in to <var>menu</var>.
+     *
+     *
+     * This is only called once, the first time the options menu is
+     * displayed.  To update the menu every time it is displayed, see
+     * [.onPrepareOptionsMenu].
+     *
+     *
+     * The default implementation populates the menu with standard system
+     * menu items.  These are placed in the [Menu.CATEGORY_SYSTEM] group so that
+     * they will be correctly ordered with application-defined menu items.
+     * Deriving classes should always call through to the base implementation.
+     *
+     *
+     * You can safely hold on to <var>menu</var> (and any items created
+     * from it), making modifications to it as desired, until the next
+     * time onCreateOptionsMenu() is called.
+     *
+     *
+     * When you add items to the menu, you can implement the Activity's
+     * [.onOptionsItemSelected] method to handle them there.
+     *
+     * @param menu The options menu in which you place your items.
+     *
+     * @return You must return true for the menu to be displayed;
+     * if you return false it will not be shown.
+     *
+     * @see .onPrepareOptionsMenu
+     *
+     * @see .onOptionsItemSelected
+     */
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+
+        Log.d(TAG, ".onCreateOptionsMenu: starts")
+        menuInflater.inflate(R.menu.menu_search, menu)
+
+        val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
+        searchView = menu.findItem(R.id.app_bar_search).actionView as SearchView
+        val searchableInfo = searchManager.getSearchableInfo(componentName)
+        searchView?.setSearchableInfo(searchableInfo)
+        Log.d(TAG, ".onCreateOptionsMenu: $componentName")
+        Log.d(TAG, ".onCreateOptionsMenu: hint is ${searchView?.queryHint}")
+        Log.d(TAG, ".onCreateOptionsMenu: $searchableInfo")
+
+        searchView?.isIconified = false
+        return true
     }
 }

@@ -9,6 +9,12 @@
 
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
-    <string name="title_activity_seatch">SeatchActivity</string>
+    <string name="title_activity_search">SearchActivity</string>
     <string name="title_activity_photo_details">Photo Details</string>
+    <string name="browse_image_description">Downloaded Flickr Photo</string>
+    <string name="photo_title_text">Title: %s</string>
+    <string name="photo_tag_text">Tag: %s</string>
+    <string name="photo_author_text">%1$s %2$s %3$s</string>
+    <string name="action_search">Search</string>
+    <string name="searchable_hint">Enter photo tags</string>
 </resources>
