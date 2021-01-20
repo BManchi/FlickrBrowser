@@ -2,10 +2,10 @@
 
 package com.bmanchi.flickrbrowser
 
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
-import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -16,7 +16,7 @@ import kotlinx.android.synthetic.main.content_main.*
 
 private const val TAG ="MainActivity"
 
-class MainActivity : AppCompatActivity(), GetRawData.OnDownloadComplete,
+class MainActivity : BaseActivity(), GetRawData.OnDownloadComplete,
     GetFlickrJsonData.OnDataAvailable, RecyclerItemClickListener.OnRecyclerClickListener {
 
     private val flickrRecyclerViewAdapter = FlickrRecyclerViewAdapter(ArrayList())
@@ -25,7 +25,10 @@ class MainActivity : AppCompatActivity(), GetRawData.OnDownloadComplete,
         Log.d(TAG, "onCreate called")
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        setSupportActionBar(findViewById(R.id.toolbar))
+//        Replace with toolbar from BaseActivity
+//        setSupportActionBar(findViewById(R.id.toolbar))
+
+        activateToolbar(false)
 
         recycler_view.layoutManager = LinearLayoutManager(this)
         recycler_view.addOnItemTouchListener(RecyclerItemClickListener(this, recycler_view, this))
@@ -52,7 +55,7 @@ class MainActivity : AppCompatActivity(), GetRawData.OnDownloadComplete,
             .buildUpon()
             .appendQueryParameter("tags", searchCriteria)
             .appendQueryParameter("tagmode", if (matchAll) "ALL" else "ANY")
-            .appendQueryParameter("lang", searchCriteria)
+            .appendQueryParameter("lang", lang)
             .appendQueryParameter("format", "json")
             .appendQueryParameter("nojsoncallback", "1")
             .build().toString()
@@ -109,7 +112,12 @@ class MainActivity : AppCompatActivity(), GetRawData.OnDownloadComplete,
 
     override fun onItemLongClick(view: View, position: Int) {
         Log.d(TAG, ".onItemLongClick starts")
-        Toast.makeText(this, "long tap at position $position", Toast.LENGTH_SHORT).show()
+//        Toast.makeText(this, "long tap at position $position", Toast.LENGTH_SHORT).show()
+        val photo = flickrRecyclerViewAdapter.getPhoto(position)
+        if (photo != null) {
+            val intent = Intent (this, PhotoDetailsActivity::class.java)
+            intent.putExtra(PHOTO_TRANSFER, photo)
+            startActivity(intent)
+        }
     }
-
 }
