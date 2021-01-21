@@ -17,4 +17,5 @@
     <string name="photo_author_text">%1$s %2$s %3$s</string>
     <string name="action_search">Search</string>
     <string name="searchable_hint">Enter photo tags</string>
+    <string name="empty_photo">No photos match your search. \n\nUse the search icon to search for photos.</string>
 </resources>
